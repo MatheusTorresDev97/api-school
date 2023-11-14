@@ -4,11 +4,6 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Matriculas extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       Matriculas.belongsTo(models.Pessoas, {
         foreignKey: 'estudante_id'
@@ -23,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Matriculas',
+    paranoid: true,
   });
   return Matriculas;
 };
+
+
+// Ao adicionar paranoid: true, você está ativando a exclusão lógica para o modelo Matriculas. Isso significa que, em vez de excluir fisicamente os registros do banco de dados, o Sequelize adicionará uma marca de tempo ao campo deletedAt quando um registro for excluído. Portanto, os registros excluídos ainda estarão presentes no banco de dados, mas marcados como excluídos.
