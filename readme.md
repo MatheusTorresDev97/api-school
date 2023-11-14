@@ -102,3 +102,6 @@ podemos precisar, de repente, deletar essa tabela, ou refazer.
  VIEW
  CONTROLLER
  
+
+ --criação de tabela
+  npx sequelize-cli model:create --name Niveis --attributes descr_nivel:string
