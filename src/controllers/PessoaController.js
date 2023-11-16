@@ -13,7 +13,7 @@ class PessoaController {
 
   static async pegaTodasAsPessoas(req, res) {
     try {
-      const todasAsPessoas = await database.Pessoas.scope('todos').findAll();
+      const todasAsPessoas = await database.Pessoas.scope("todos").findAll();
       return res.status(200).json(todasAsPessoas);
     } catch (error) {
       return res.status(500).json(error.message);
@@ -70,10 +70,10 @@ class PessoaController {
   }
 
   static async restauraPessoa(req, res) {
-    const { id } = req.params
+    const { id } = req.params;
     try {
-      await database.Pessoas.restore( {where: {id: Number(id)}})
-      return res.status(200).json({mensagem: `id ${id} restaurado` })
+      await database.Pessoas.restore({ where: { id: Number(id) } });
+      return res.status(200).json({ mensagem: `id ${id} restaurado` });
     } catch (error) {
       return res.status(500).json(error.message);
     }
@@ -83,8 +83,7 @@ class PessoaController {
     const { estudanteId, matriculaId } = req.params;
     try {
       const umaMatricula = await database.Matriculas.findOne({
-        where: { id: Number(matriculaId),
-        estudante_id: Number(estudanteId) },
+        where: { id: Number(matriculaId), estudante_id: Number(estudanteId) },
       });
 
       return res.status(200).json(umaMatricula);
@@ -94,10 +93,12 @@ class PessoaController {
   }
 
   static async criaMatricula(req, res) {
-    const { estudanteId } = req.params
-    const novaMatricula = {...req.body, estudante_id: Number(estudanteId)};
+    const { estudanteId } = req.params;
+    const novaMatricula = { ...req.body, estudante_id: Number(estudanteId) };
     try {
-      const novaMatriculaCriada = await database.Matriculas.create(novaMatricula);
+      const novaMatriculaCriada = await database.Matriculas.create(
+        novaMatricula
+      );
       return res.status(200).json(novaMatriculaCriada);
     } catch (error) {
       return res.status(500).json(error.message);
@@ -109,10 +110,11 @@ class PessoaController {
     const novasInfos = req.body;
     try {
       await database.Matriculas.update(novasInfos, {
-         where: {
-           id: Number(matriculaId),
-           estudante_id: Number(estudanteId)
-           } });
+        where: {
+          id: Number(matriculaId),
+          estudante_id: Number(estudanteId),
+        },
+      });
       const matriculaAtualizada = await database.Matriculas.findOne({
         where: {
           id: Number(matriculaId),
@@ -135,21 +137,31 @@ class PessoaController {
   }
 
   static async restauraMatricula(req, res) {
-    const { estudanteId, matriculaId } = req.params
+    const { estudanteId, matriculaId } = req.params;
     try {
       await database.Matriculas.restore({
         where: {
           id: Number(matriculaId),
-          estudante_id: Number(estudanteId)
-        }
-      })
-      return res.status(200).json({ mensagem: `id ${id} restaurado`})
+          estudante_id: Number(estudanteId),
+        },
+      });
+      return res.status(200).json({ mensagem: `id ${id} restaurado` });
     } catch (error) {
-      return res.status(500).json(error.message)
+      return res.status(500).json(error.message);
+    }
+  }
+
+  static async pegaMatriculas(req, res) {
+    const { estudanteId } = req.params;
+    try {
+      const matriculas = await database.Matriculas.findAll({
+        where: { estudante_id: Number(estudanteId) },
+      });
+      return res.status(200).json({ matriculas });
+    } catch (error) {
+      return res.status(500).json(error.message);
     }
   }
 }
-
-
 
 module.exports = PessoaController;

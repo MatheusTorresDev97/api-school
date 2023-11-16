@@ -14,7 +14,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'docente_id'
       }) //Uma Pessoa pode ter varias turmas
       Pessoas.hasMany(models.Matriculas, {
-        foreignKey: 'estudante_id'
+        foreignKey: 'estudante_id',
+        scope: {
+          status: 'confirmado'
+        },
+        as: 'aulasMatriculadas'
       }) //Uma Pessoa pode ter varias matriculas
     }
   }
