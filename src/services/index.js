@@ -1,13 +1,9 @@
-const database = require('../models')
+const PessoasServices = require('./PessoasServices')
+const TurmasServices = require('./TurmasServices')
+const NiveisServices = require('./NiveisServices')
 
-class Services {
-    constructor(nomeDoModelo) {
-        this.nomeDoModelo = nomeDoModelo
-    }
-
-    async pegaTodosOsRegistros() {
-        return database[this.nomeDoModelo].findAll()
-    }
+module.exports = {
+    PessoasServices: PessoasServices,
+    TurmasServices: TurmasServices,
+    NiveisServices: NiveisServices
 }
-
-module.exports = Services
